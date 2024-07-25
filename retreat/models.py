@@ -1,8 +1,8 @@
-from django.db import models
-from taggit.managers import TaggableManager
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 from django.db.models import Q
+from taggit.managers import TaggableManager
 
 
 class Retreat(models.Model):
