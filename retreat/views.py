@@ -2,6 +2,7 @@ from .models import Retreat, Booking
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -119,5 +120,7 @@ def book(request):
 
         booking.save()
         return Response({"data": "Booked successfully!"})
+    except ObjectDoesNotExist:
+        return Response({'error': 'User does not exist'})
     except:
         return Response({"error": "Booking already done"})

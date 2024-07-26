@@ -44,6 +44,9 @@ class Booking(models.Model):
             if book:
                 raise Exception("Booking already done")
         except ObjectDoesNotExist:
+            user = User.objects.get(pk=self.user.id)
+            if not user:
+                raise ObjectDoesNotExist('User does not exist')
             super().save(*args, **kwargs)
 
     class Meta:
