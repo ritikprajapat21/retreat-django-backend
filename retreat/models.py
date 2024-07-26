@@ -7,13 +7,13 @@ from taggit.managers import TaggableManager
 
 class Retreat(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=250)
     description = models.TextField()
     date = models.DateTimeField()
-    location = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
     price = models.IntegerField()
-    type = models.CharField(max_length=50)
-    condition = models.CharField(max_length=50)
+    type = models.CharField(max_length=100)
+    condition = models.CharField(max_length=100)
     image = models.URLField()
     tag = TaggableManager()
     duration = models.IntegerField()
@@ -22,7 +22,7 @@ class Retreat(models.Model):
         ordering = ["id", "date"]
 
     def __str__(self):
-        return f"{self.tag} {self.title}"
+        return f"{self.id} {self.title}"
 
 
 class Booking(models.Model):

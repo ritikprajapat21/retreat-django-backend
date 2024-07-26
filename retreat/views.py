@@ -11,14 +11,25 @@ import requests
 
 
 # To add seed data
+@api_view(["GET"])
+@permission_classes(
+    [
+        AllowAny,
+    ]
+)
 def seed(request):
+    items = Retreat.objects.all()
+
+    if len(items) != 0:
+        return Response({"message": "Data already exist"})
+
     url = "https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats"
     res = requests.get(url)
     retreats = res.json()
 
     for retreat in retreats:
         item = Retreat(
-            id=int(retreat["id"]),
+            id=retreat["id"],
             title=retreat["title"],
             description=retreat["description"],
             date=datetime.datetime.fromtimestamp(retreat["date"]),
