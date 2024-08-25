@@ -37,20 +37,20 @@ class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        try:
-            book = Booking.objects.filter(
-                Q(user=self.user.id) & Q(retreat=self.retreat.id)
-            )
-            if book:
-                raise Exception("Booking already done")
-        except ObjectDoesNotExist:
-            user = User.objects.get(pk=self.user.id)
-            if not user:
-                raise ObjectDoesNotExist('User does not exist')
-            super().save(*args, **kwargs)
+        book = Booking.objects.filter(
+            Q(user=self.user.id) & Q(retreat=self.retreat.id)
+        )
+        print("Book",book, len(book))
+        if len(book) > 0:
+            raise Exception("Booking already done")
+        user = User.objects.get(pk=self.user.id)
+        
+        if not user:
+            raise ObjectDoesNotExist('User does not exist')
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["date"]
 
     def __str__(self):
-        return self.id
+        return f"{self.id}"

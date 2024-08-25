@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 import datetime
@@ -94,6 +95,7 @@ def fetchRetreats(request):
 
 
 # I have used allow any for now, which in future can be changed to isAuthenticated for authenticated user only
+@csrf_exempt
 @api_view(["POST"])
 @permission_classes(
     [
@@ -122,5 +124,5 @@ def book(request):
         return Response({"data": "Booked successfully!"})
     except ObjectDoesNotExist:
         return Response({'error': 'User does not exist'})
-    except:
-        return Response({"error": "Booking already done"})
+    except Exception as e:
+        return Response({"error": str(e)})
